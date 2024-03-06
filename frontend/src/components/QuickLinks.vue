@@ -16,6 +16,7 @@
 				</div>
 				<FeatherIcon name="chevron-right" class="h-5 w-5 text-gray-500" />
 			</router-link>
+			<Button class="p-5 bg-white hover:bg-white" @click="salesWise()">Switch to Sales Visit</Button>
 		</div>
 	</div>
 </template>
@@ -34,4 +35,10 @@ const props = defineProps({
 		required: true,
 	},
 })
+
+function salesWise() {
+	let origin = window.location.origin
+	window.open(`${origin}/sales-visit/`, "__self")
+}
+
 </script>

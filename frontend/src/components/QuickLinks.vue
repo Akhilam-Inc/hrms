@@ -38,7 +38,7 @@ const props = defineProps({
 
 function salesWise() {
 	let origin = window.location.origin
-	window.open(`${origin}/sales-visit/`, "__self")
+	window.open(`${origin}/frontend`, "__self")
 }
 
 </script>

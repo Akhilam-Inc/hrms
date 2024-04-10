@@ -117,6 +117,9 @@ const submitLog = (logType) => {
 			employee: employee.data.name,
 			log_type: logType,
 			time: checkinTimestamp.value,
+			custom_latitude: window.location.lat,
+			custom_longitude: window.location.long
+
 		},
 		{
 			onSuccess() {
@@ -143,6 +146,12 @@ const submitLog = (logType) => {
 }
 
 onMounted(() => {
+
+	navigator.geolocation.getCurrentPosition((position) => {
+		window.location.lat = position.coords.latitude;
+		window.location.long = position.coords.longitude;
+	});
+
 	socket.emit("doctype_subscribe", DOCTYPE)
 	socket.on("list_update", (data) => {
 		if (data.doctype == DOCTYPE) {

@@ -16,7 +16,7 @@
 							</template>
 							<template #body-main>
 								<div class="p-2 flex flex-col justify-center gap-1">
-								<Input class="mb-2" id="from" v-model="date.from" :value="date.from" @change="(d) => {changeFromDate(d)}" type="date" label="From Date" /> <Input v-model="date.to" :value="date.to" @change="(d) => {changeToDate(d)}" type="date" label="To Date" /><Button class="mt-3" variant="solid" @click="dateFilter()">Apply Filter</Button>
+								<Input class="mb-2" id="from" v-model="date.from" :value="date.from" @change="(d) => {changeFromDate(d)}" type="date" label="From Date" /> <Input v-model="date.to" :min="date.from" :value="date.to" @change="(d) => {changeToDate(d)}" type="date" label="To Date" /><Button class="mt-3" variant="solid" @click="dateFilter()">Apply Filter</Button>
 								</div>
 							</template>
 						</Popover>
@@ -39,7 +39,7 @@
 							<div class="flex items-center">
 								<Badge
 									:variant="'outline'"
-									:theme="data.status == 'Open' ? 'gray' : 'red'"
+									:theme="handleStatus(data.status)"
 									size="lg"
 									label="Badge"
 									class="mr-2"
@@ -170,6 +170,16 @@ function dateFilter () {
 function showDocument (doc) {
 	showDoc.value = true
 	document.value = doc
+}
+
+function handleStatus (status) {
+	if (status === "Approved") {
+		return "green"
+	} else if (status === "Rejected" || status === "Cancelled") {
+		return "red"
+	} else if (status === "Open") {
+		return "gray"
+	}
 }
 
 </script>

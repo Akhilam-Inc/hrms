@@ -21,6 +21,7 @@ import LeaveIcon from "@/components/icons/LeaveIcon.vue"
 import ExpenseIcon from "@/components/icons/ExpenseIcon.vue"
 import EmployeeAdvanceIcon from "@/components/icons/EmployeeAdvanceIcon.vue"
 import SalaryIcon from "@/components/icons/SalaryIcon.vue"
+import RequestIcon from "@/components/icons/RequestIcon.vue"
 
 const quickLinks = [
 	{
@@ -43,5 +44,11 @@ const quickLinks = [
 		title: "View Salary Slips",
 		route: "SalarySlipsDashboard",
 	},
+	{
+		icon: markRaw(RequestIcon),
+		title: "Request Form",
+		route: "RequestForm",
+	}
+	
 ]
 </script>

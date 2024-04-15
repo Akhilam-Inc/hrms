@@ -31,12 +31,22 @@
 								</div>
 								<div class="ml-3">
 									<div class="text-[15px] text-gray-900 font-bold">{{ data.name }}</div>
-									<div class="text-[15px]  text-gray-900 font-medium">From Date: <span class="ml-4 text-gray-700"> {{ data.from_date }}</span></div>
-									<div class="text-[15px]  text-gray-900 font-medium">To Date: <span class="ml-4 text-gray-700"> {{ data.to_date }}</span></div>
+									<div class="text-[15px]  text-gray-900 font-medium"><span class="text-gray-700"> {{ data.from_date }}</span></div>
+									<div class="text-[15px]  text-gray-900 font-medium"><span class="text-gray-700"> {{ data.to_date }}</span></div>
 									<div class="text-[14px] w-[180px] text-gray-900 font-semibold" >{{ data.reason }}</div>
 								</div>
 							</div>
-							<div>
+							<div class="flex items-center">
+								<Badge
+									:variant="'outline'"
+									:theme="data.status == 'Open' ? 'gray' : 'red'"
+									size="lg"
+									label="Badge"
+									class="mr-2"
+								
+								>
+								{{ data.status }}
+								</Badge>
 								<FeatherIcon name="chevron-right" class="w-5 h-5 text-gray-600" />
 							</div>
 						</div>
@@ -50,6 +60,7 @@
 							</template>
 							<template #body-content>
 								<div class="flex justify-between mb-2"><div class="text-[15px] text-gray-500 font-semibold">ID</div><div class="text-[15px]  text-gray-900">{{ document.name }}</div></div>
+								<div class="flex justify-between mb-2"><div class="text-[15px] text-gray-500 font-semibold">Status</div><div class="text-[15px]  text-gray-900">{{ document.status }}</div></div>
 								<div class="flex justify-between mb-2"><div class="text-[15px] text-gray-500 font-semibold">Employee</div><div class="text-[15px]  text-gray-900">{{ document.employee }}</div></div>
 								<div class="flex justify-between mb-2"><div class="text-[15px] text-gray-500 font-semibold">Employee Name</div><div class="ml-4 text-gray-900">{{ document.employee_name }}</div></div>
 								<div class="flex justify-between mb-2"><div class="text-[15px] text-gray-500 font-semibold">From Date</div><div class="ml-4 text-gray-900">{{ document.from_date }}</div></div>
@@ -79,7 +90,7 @@
 import { IonPage, IonContent } from "@ionic/vue";
 import BottomTabs from "../../components/BottomTabs.vue"
 import { createListResource, createResource } from 'frappe-ui'
-import { FeatherIcon, Dialog, Popover, Input, toast } from 'frappe-ui'
+import { FeatherIcon, Dialog, Popover, Input, toast, Badge } from 'frappe-ui'
 import { computed, markRaw, reactive, ref } from 'vue';
 import DocumentIcon from '../../components/icons/DocumentIcon.vue';
 import { session } from '../../data/session';
@@ -100,7 +111,7 @@ let date = reactive({
 const requestForm = createResource({
 		url: "frappe.desk.reportview.get",
 		params: {"doctype":"Request Form",
-				"fields":["`tabRequest Form`.name","`tabRequest Form`.from_date","`tabRequest Form`.to_date","`tabRequest Form`.half_day_date","`tabRequest Form`.reason", "`tabRequest Form`.explanation", "`tabRequest Form`.half_day", "`tabRequest Form`.employee", "`tabRequest Form`.employee_name"],
+				"fields":["`tabRequest Form`.name","`tabRequest Form`.from_date","`tabRequest Form`.to_date","`tabRequest Form`.half_day_date","`tabRequest Form`.reason", "`tabRequest Form`.explanation", "`tabRequest Form`.half_day", "`tabRequest Form`.employee", "`tabRequest Form`.employee_name", "`tabRequest Form`.status"],
 				"group_by":"`tabRequest Form`.name","order_by":"`tabRequest Form`.modified desc","page_length":100,"start":0,
 				"filters": [["Request Form", "from_date", "Between", [date.from, date.to]], ["Request Form", "owner", "=", session.user]],
 			},
@@ -138,7 +149,7 @@ function dateFilter () {
 	if(date.from <= date.to) {
 		requestForm.update({
 			params: {"doctype":"Request Form",
-				"fields":["`tabRequest Form`.name","`tabRequest Form`.from_date","`tabRequest Form`.to_date","`tabRequest Form`.half_day_date","`tabRequest Form`.reason", "`tabRequest Form`.explanation", "`tabRequest Form`.half_day", "`tabRequest Form`.employee", "`tabRequest Form`.employee_name"],
+				"fields":["`tabRequest Form`.name","`tabRequest Form`.from_date","`tabRequest Form`.to_date","`tabRequest Form`.half_day_date","`tabRequest Form`.reason", "`tabRequest Form`.explanation", "`tabRequest Form`.half_day", "`tabRequest Form`.employee", "`tabRequest Form`.employee_name", "`tabRequest Form`.status"],
 				"group_by":"`tabRequest Form`.name","order_by":"`tabRequest Form`.modified desc","page_length":100,"start":0,
 				"filters": [["Request Form", "from_date", "Between", [date.from, date.to]], ["Request Form", "owner", "=", session.user]],
 			},

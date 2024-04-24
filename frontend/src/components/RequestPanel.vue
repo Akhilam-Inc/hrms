@@ -21,10 +21,11 @@ import RequestList from "@/components/RequestList.vue"
 
 import { myLeaves, teamLeaves } from "@/data/leaves"
 import { myClaims, teamClaims } from "@/data/claims"
-import { teamTVRequests } from "@/data/tvRequests"
+import { teamTVRequests } from "@/data/tv_requests"
 
 import LeaveRequestItem from "@/components/LeaveRequestItem.vue"
 import ExpenseClaimItem from "@/components/ExpenseClaimItem.vue"
+import RequestFormItem from "./RequestFormItem.vue"
 
 import { useListUpdate } from "@/composables/realtime"
 
@@ -54,6 +55,8 @@ const teamRequests = computed(() => {
 			item.component = markRaw(LeaveRequestItem)
 		else if (item.doctype === "Expense Claim")
 			item.component = markRaw(ExpenseClaimItem)
+		else if (item.doctype === "Request Form")
+		    item.component = markRaw(RequestFormItem)
 
 		return item
 	})

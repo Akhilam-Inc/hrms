@@ -333,7 +333,7 @@ def get_tv_requests(
 	for_approval: bool = False,
 	limit: int | None = None,
 ) -> list[dict]:
-	filters = get_expense_claim_filters(employee, approver_id, for_approval)
+	filters = {"approver": approver_id, "status": "Open"}
 	fields = [
 		"`tabRequest Form`.name",
 		"`tabRequest Form`.employee",

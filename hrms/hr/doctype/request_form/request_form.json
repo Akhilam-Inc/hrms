@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:RF-{DD}{MM}{####}",
  "creation": "2024-04-15 10:42:27.306106",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -8,6 +9,7 @@
   "employee",
   "employee_name",
   "status",
+  "approver",
   "column_break_93jy",
   "company",
   "from_date",
@@ -92,14 +94,23 @@
    "fieldtype": "Select",
    "label": "Status",
    "options": "Open\nApproved\nRejected\nCancelled"
+  },
+  {
+   "fetch_from": "employee.expense_approver",
+   "fieldname": "approver",
+   "fieldtype": "Link",
+   "label": "Approver",
+   "options": "User",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-15 10:48:17.951392",
+ "modified": "2024-04-24 14:35:43.449546",
  "modified_by": "Administrator",
  "module": "HR",
  "name": "Request Form",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

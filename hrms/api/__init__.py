@@ -326,6 +326,47 @@ def get_expense_claims(
 
 	return claims
 
+@frappe.whitelist()
+def get_tv_requests(
+	employee: str,
+	approver_id: str = None,
+	for_approval: bool = False,
+	limit: int | None = None,
+) -> list[dict]:
+	filters = get_expense_claim_filters(employee, approver_id, for_approval)
+	fields = [
+		"`tabRequest Form`.name",
+		"`tabRequest Form`.employee",
+		"`tabRequest Form`.employee_name",
+		
+		"`tabRequest Form`.status",
+		
+		"`tabRequest Form`.from_date",
+		"`tabRequest Form`.to_date",
+		"`tabRequest Form`.half_day",
+		"`tabRequest Form`.half_day_date",
+		"`tabRequest Form`.reason",
+		"`tabRequest Form`.explanation",
+		
+	]
+
+	if workflow_state_field := get_workflow_state_field("Request Form"):
+		fields.append(workflow_state_field)
+
+	tc_requests = frappe.get_list(
+		"Request Form",
+		fields=fields,
+		filters=filters,
+		order_by="`tabRequest Form`.creation desc",
+		limit=limit,
+	)
+
+	if workflow_state_field:
+		for claim in tc_requests:
+			claim["workflow_state_field"] = workflow_state_field
+
+	return tc_requests
+
 
 def get_expense_claim_filters(
 	employee: str,

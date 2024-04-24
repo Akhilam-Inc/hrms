@@ -21,6 +21,7 @@ import RequestList from "@/components/RequestList.vue"
 
 import { myLeaves, teamLeaves } from "@/data/leaves"
 import { myClaims, teamClaims } from "@/data/claims"
+import { teamTVRequests } from "@/data/tvRequests"
 
 import LeaveRequestItem from "@/components/LeaveRequestItem.vue"
 import ExpenseClaimItem from "@/components/ExpenseClaimItem.vue"
@@ -46,7 +47,7 @@ const myRequests = computed(() => {
 })
 
 const teamRequests = computed(() => {
-	const requests = [...(teamLeaves.data || []), ...(teamClaims.data || [])]
+	const requests = [...(teamLeaves.data || []), ...(teamClaims.data || []), ...(teamTVRequests.data || [])]
 
 	return requests.map((item) => {
 		if (item.doctype === "Leave Application")
@@ -61,5 +62,6 @@ const teamRequests = computed(() => {
 onMounted(() => {
 	useListUpdate(socket, "Leave Application", () => teamLeaves.reload())
 	useListUpdate(socket, "Expense Claim", () => teamClaims.reload())
+	useListUpdate(socket, "Request Form", () => teamTVRequests.reload())
 })
 </script>

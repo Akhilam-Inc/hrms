@@ -353,7 +353,7 @@ def get_tv_requests(
 	if workflow_state_field := get_workflow_state_field("Request Form"):
 		fields.append(workflow_state_field)
 
-	tc_requests = frappe.get_list(
+	tc_requests = frappe.get_all(
 		"Request Form",
 		fields=fields,
 		filters=filters,

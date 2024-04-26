@@ -41,6 +41,7 @@
 		:breakpoints="[0, 1]"
 	>
 		<RequestActionSheet
+			v-if="selectedRequest.doctype === 'Leave Application' || selectedRequest.doctype === 'Expense Claim'"
 			:fields="
 				selectedRequest.doctype === 'Leave Application'
 					? LEAVE_FIELDS
@@ -48,6 +49,11 @@
 			"
 			v-model="selectedRequest"
 		/>
+		<RequestActionSheet
+            v-else
+            :fields="REQUEST_FORM"
+            v-model="selectedRequest"
+        />
 	</ion-modal>
 </template>
 
@@ -59,6 +65,7 @@ import RequestActionSheet from "@/components/RequestActionSheet.vue"
 import {
 	LEAVE_FIELDS,
 	EXPENSE_CLAIM_FIELDS,
+	REQUEST_FORM
 } from "@/data/config/requestSummaryFields"
 
 const props = defineProps({

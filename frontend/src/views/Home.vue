@@ -27,18 +27,13 @@ import SalesVisitIcon from "@/components/icons/SalesVisitIcon.vue"
 const quickLinks = [
 	{
 		icon: markRaw(LeaveIcon),
-		title: "Request Leave",
+		title: "Leave Application",
 		route: "LeaveApplicationFormView",
 	},
 	{
 		icon: markRaw(ExpenseIcon),
-		title: "Claim an Expense",
+		title: "Expense Claim",
 		route: "ExpenseClaimFormView",
-	},
-	{
-		icon: markRaw(EmployeeAdvanceIcon),
-		title: "Request an Advance",
-		route: "EmployeeAdvanceFormView",
 	},
 	{
 		icon: markRaw(SalaryIcon),

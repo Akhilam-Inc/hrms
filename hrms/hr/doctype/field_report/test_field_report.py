@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestFieldRequest(FrappeTestCase):
+class TestFieldReport(FrappeTestCase):
 	pass

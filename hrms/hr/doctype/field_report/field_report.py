@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class FieldRequest(Document):
+class FieldReport(Document):
 	pass

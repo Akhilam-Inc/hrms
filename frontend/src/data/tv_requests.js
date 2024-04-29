@@ -16,3 +16,10 @@ export const teamTVRequests = createResource({
 		return transformClaimData(data)
 	},
 })
+
+const transformClaimData = (data) => {
+	return data.map((claim) => {
+		claim.doctype = "Request Form"
+		return claim
+	})
+}

@@ -31,6 +31,8 @@ import LeaveIcon from "@/components/icons/LeaveIcon.vue"
 import ExpenseIcon from "@/components/icons/ExpenseIcon.vue"
 import SalaryIcon from "@/components/icons/SalaryIcon.vue"
 import RequestIcon from "@/components/icons/RequestIcon.vue"
+// import FollowUpIcon from "@/components/icons/FollowUpIcon.vue"
+import FollowUpIcon from "./icons/FollowUpIcon.vue"
 
 const route = useRoute()
 
@@ -50,10 +52,15 @@ const tabItems = [
 		title: "Expenses",
 		route: "/dashboard/expense-claims",
 	},
+	// {
+	// 	icon: SalaryIcon,
+	// 	title: "Salary",
+	// 	route: "/dashboard/salary-slips",
+	// },
 	{
-		icon: SalaryIcon,
-		title: "Salary",
-		route: "/dashboard/salary-slips",
+		icon: FollowUpIcon,
+		title: "Followup",
+		route: "/dashboard/follow-up-list",
 	},
 	{
 		icon: RequestIcon,

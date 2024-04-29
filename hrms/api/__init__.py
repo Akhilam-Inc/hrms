@@ -3,6 +3,11 @@ from frappe import _
 from frappe.model.workflow import get_workflow_name
 from frappe.query_builder import Order
 from frappe.utils import getdate
+# from hrms.api import upload_base64_file as hrms_file_uploader
+import requests
+from erpnext.accounts.party import get_party_details
+from frappe.utils import add_days, flt, getdate, today
+
 
 SUPPORTED_FIELD_TYPES = [
 	"Link",
@@ -675,3 +680,123 @@ def get_allowed_states_for_workflow(workflow: dict, user_id: str) -> list[str]:
 	return [
 		transition.state for transition in workflow.transitions if transition.allowed in user_roles
 	]
+
+
+
+
+# @frappe.whitelist()
+# def upload_base64_file(file_list, dt=None, dn=None):
+# 	for row in file_list:
+# 		hrms_file_uploader(file_list[row], row, dt , dn)
+
+
+def get_location_for_lat_lng(lat, lng):
+	"""
+	The function `get_location_for_lat_lng` takes latitude and longitude coordinates as input and
+	returns the location information for that coordinates using a reverse geocoding API.
+
+	:param lat: The `lat` parameter represents the latitude coordinate of a location
+	:param lng: The `lng` parameter represents the longitude coordinate of a location
+	:return: a JSON response containing location information for the given latitude and longitude
+	coordinates.
+	"""
+	url = f"https://nominatim.openstreetmap.org/reverse?lat={lat}&lon={lng}&format=json"
+	response = requests.request("GET", url, headers={}, data={})
+	if response.ok:
+		response=response.json()
+		response.pop('licence')
+		response.pop('osm_type')
+		response.pop('osm_id')
+		return response
+
+def record_place_name(self, method):
+	if self.doctype == "Employee Checkin":
+		if self.get("custom_latitude") and self.get("custom_longitude") and not self.custom_place_name:
+			self.custom_place_name = get_location_for_lat_lng(self.get("custom_latitude") , self.get("custom_longitude")).get('display_name') or ""
+
+	if self.doctype == "Sales Visit":
+		if self.get("latitude") and self.get("longitude") and not self.place_name:
+			self.place_name = get_location_for_lat_lng(self.get("latitude") , self.get("longitude")).get('display_name') or ""
+
+
+
+
+
+@frappe.whitelist()
+def create_sales_order(**args):
+	price_list = frappe.db.get_value("Customer",args["customer"],"default_price_list")
+	company = frappe.get_single("Global Defaults").default_company
+	
+	employee_id = frappe.db.get_value("Employee", {"user_id": args["user"]})
+	sales_person = frappe.db.get_value("Sales Person", {"employee": employee_id})
+	sales_team = []
+	if sales_person:
+		sales_team = [{"sales_person": sales_person, "allocated_percentage":100}]
+	if not price_list:
+		frappe.throw(f"Price list is not assigned in customer group of customer {args['customer']}")
+
+	try:
+		so = frappe.get_doc({
+			'doctype': "Sales Order",
+			'transaction_date': args["date"] or today(),
+			'company' : company,
+			'customer' : args["customer"],
+			'delivery_date' : args["delivery_date"],
+			'sales_team' : sales_team,
+			'price_list'  : price_list,
+			'items': args["item"],
+			'order_type' : "Sales",
+		})
+		
+		party_details = get_party_details(party=so.customer,party_type='Customer',posting_date=frappe.utils.today(),company=company,doctype='Sales Order')
+		so.taxes_and_charges = party_details.get("taxes_and_charges")
+		so.set("taxes", party_details.get("taxes"))
+		so.set_missing_values()
+		so.calculate_taxes_and_totals()
+		so.insert(ignore_permissions=True)
+
+	except Exception as e:
+		frappe.log_error(title = "Sales Order Creation",message = frappe.get_traceback())
+
+
+@frappe.whitelist()
+def create_customer(**args):
+	try:
+		args = args["customer"]
+		customer_doc = frappe.get_doc({
+						"doctype":"Customer",
+						"customer_name": args["customer_name"],
+						"gstin": args["custom_gst_number"]
+				}).insert(ignore_permissions=True)
+
+		address_doc = frappe.get_doc(
+						{
+							"doctype": "Address",
+							"address_title": args["customer_name"],
+							"address_type": "Billing",
+							"address_line1": args["custom_firm_name"],
+							"city": args["custom_city"],
+							"state": args["custom_city"],
+							"links": [{"link_doctype": "Customer", "link_name": customer_doc.name}],
+							"gstin": args["custom_gst_number"],
+							"email_id": args["custom_email_address"],
+							"phone": args["custom_phone"]
+				}).insert(ignore_permissions=True)
+
+		contact_doc = frappe.get_doc(
+						{
+							"doctype": "Contact",
+							"first_name": args["customer_name"],
+							"company_name": args["custom_firm_name"],
+							"address": address_doc.name,
+							"email_ids": [{"email_id": args["custom_email_address"], "is_primary": 1}],
+							"phone_nos": [{"phone": args["custom_phone"], "is_primary_phone": 1, "is_primary_mobile_no": 1}],
+							"links": [{"link_doctype": "Customer", "link_name": customer_doc.name}],
+				}).insert(ignore_permissions=True)
+
+		customer_doc.customer_primary_address = address_doc.name
+		customer_doc.customer_primary_contact = contact_doc.name
+		customer_doc.save(ignore_permissions=True)
+	
+	except Exception as e:
+		frappe.log_error(title = "Customer Creation",message = frappe.get_traceback())

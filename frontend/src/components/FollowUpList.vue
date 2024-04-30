@@ -50,11 +50,13 @@
                         </template>
                         <template #body-content>
                             <div class="flex justify-between mb-2"><div class="text-[15px] text-gray-500 font-semibold">ID</div><div class="text-[15px]  text-gray-900">{{ document.name }}</div></div>
+                            <div class="flex justify-between mb-2"><div class="text-[15px] text-gray-500 font-semibold">Status</div><div class="text-[15px]  text-gray-900">{{ document.status }}</div></div>
                             <div class="flex justify-between mb-2"><div class="text-[15px] text-gray-500 font-semibold">Name</div><div class="text-[15px]  text-gray-900">{{ document.custom_customer || document.custom_lead }}</div></div>
                             <div class="flex justify-between mb-2"><div class="text-[15px] text-gray-500 font-semibold">Date</div><div class="ml-4 text-gray-900">{{ document.date }}</div></div>
                             <div class="">
                                 <div class="text-[15px] text-gray-500 font-semibold mb-1">Description</div>
                                 <div class="text-[14px] text-gray-900" v-html="document.description"></div>
+                                <Button class="w-full mt-5" @click="[changeStatus(document.name), showDoc = false]" variant="solid" theme="red" size="lg">Close</Button>
                             </div>
                         </template>
                         </Dialog>
@@ -69,8 +71,8 @@
 </template>
 <script setup>
 import { IonPage, IonHeader, IonContent, IonFooter } from '@ionic/vue';
-import { createResource } from 'frappe-ui'
-import { FeatherIcon, Dialog, Popover, Input, toast } from 'frappe-ui'
+import { createListResource, createResource } from 'frappe-ui'
+import { FeatherIcon, Dialog, Popover, Input, toast, Button } from 'frappe-ui'
 import { computed, markRaw, reactive, ref } from 'vue';
 import DocumentIcon from './icons/DocumentIcon.vue';
 import { session } from '../data/session';
@@ -92,9 +94,9 @@ let date = reactive({
 let followUp = createResource({
         url: "frappe.desk.reportview.get",
         params: {"doctype":"ToDo",
-                "fields":["`tabToDo`.name","`tabToDo`.date","`tabToDo`.description","`tabToDo`.custom_customer","`tabToDo`.custom_lead"],
+                "fields":["`tabToDo`.name","`tabToDo`.date","`tabToDo`.description","`tabToDo`.custom_customer","`tabToDo`.custom_lead", "`tabToDo`.status"],
                 "group_by":"`tabToDo`.name","order_by":"`tabToDo`.modified desc","page_length":100,"start":0,
-                "filters":  [["ToDo","date","Between",[date.from , date.to ]], ["ToDo", "owner", "=", session.user]],
+                "filters":  [["ToDo","date","Between",[date.from , date.to ]], ["ToDo", "owner", "=", session.user], ["ToDo", "status", "=", "Open"]],
             },
         transform(data){
             let transformData = []
@@ -128,6 +130,20 @@ function changeFromDate(d) {
 function changeToDate(d) {
     date.to = d
 }
+
+function changeStatus (name) {
+    console.log(name, "change statsus")
+    todo.setValue.submit({
+        name: name,
+        status: "Closed",
+    }).then((r) => {
+        location.reload()
+    })
+}
+
+let todo = createListResource({
+    doctype: "ToDo",
+})
 
 function dateFilter () {
     if(date.from <= date.to) {

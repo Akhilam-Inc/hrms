@@ -709,6 +709,7 @@ def get_location_for_lat_lng(lat, lng):
 		return response
 
 def record_place_name(self, method):
+	frappe.msgprint("Record Place Name")
 	if self.doctype == "Employee Checkin":
 		if self.get("custom_latitude") and self.get("custom_longitude") and not self.custom_place_name:
 			self.custom_place_name = get_location_for_lat_lng(self.get("custom_latitude") , self.get("custom_longitude")).get('display_name') or ""

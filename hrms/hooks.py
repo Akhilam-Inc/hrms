@@ -200,9 +200,9 @@ doc_events = {
 	"Employee Checkin": {
 			"validate": "hrms.api.record_place_name"
 	},
-	"Field Report": {
-			"validate": "hrms.api.record_place_name"
-	}
+	# "Field Report": {
+	# 		"validate": "hrms.api.record_place_name"
+	# }
 }
 
 # Scheduled Tasks

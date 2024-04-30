@@ -61,7 +61,7 @@
                             <ul class="w-full flex fle-col items-center gap-2 mt-2"  v-for="file in selectedFiles">
                                 <li class="bg-gray-100 rounded p-2 w-full" >
                                     <div class="flex flex-row items-center w-full justify-between text-gray-700 text-sm">
-                                        <span class="grow cursor-pointer" @click="showPreview(file[0][0])">
+                                        <span class="grow cursor-pointer" @click="showPreview(file)">
                                             {{ file[0][0].name || file[0].file_name }}
                                         </span>
                                         <FeatherIcon name="x"
@@ -71,17 +71,16 @@
                                 </li>
                             </ul>
                         </div>
-                        <!-- <div class="h-full flex items-center justify-center bg-white shadow-sm px-4"> -->
-                            <!-- <ImagePreview class=" absolute z-10 h-full" v-if="showDialog" :file="imageFile" @close="closePreView"/> -->
-                            
-                        <!-- </div> -->
-                        <ion-modal
+                        <div class="h-full flex items-center justify-center bg-white shadow-sm px-4">
+                            <ImagePreview class=" absolute z-10 h-full" v-if="showDialog" :file="imageFile" @close="closePreView"/>
+                        </div>
+                        <!-- <ion-modal
                         ref="modal"
                         :is-open="showPreviewModal"
                         @didDismiss="showPreviewModal = false"
 			            >
                             <FilePreviewModal :file="previewFile" />
-                        </ion-modal>
+                        </ion-modal> -->
                     </div>
                     <div class="mt-7">
                         <div class="mb-3 text-base font-semibold">Sales Visit Type</div>
@@ -127,7 +126,7 @@ import router from '../router';
 import { computed } from 'vue';
 import { IonPage, IonContent, IonModal } from '@ionic/vue';
 import FilePreviewModal from './FilePreviewModal.vue';
-// import ImagePreview from './ImagePreview.vue';
+import ImagePreview from './ImagePreview.vue';
 
 
 const salesVisit = reactive({
@@ -141,6 +140,7 @@ const salesVisit = reactive({
 let selectedFiles = ref([])
 let previewFile = ref({})
 let showCustomerField = ref(true)
+let showDialog = ref(false)
 let showLeadField = ref(false)
 let showError = ref(false)
 let errorMessage = ref('')
@@ -178,10 +178,10 @@ function handleFileSelect(ev) {
 
 function showPreview(file) {
     console.log("showpreview", file)
-    // imageFile.value = file
-    // showDialog.value = true
-    previewFile.value = file
-    showPreviewModal.value = true
+    imageFile.value = file
+    showDialog.value = true
+    // previewFile.value = file
+    // showPreviewModal.value = true
 }
 
 const uploader = createResource({

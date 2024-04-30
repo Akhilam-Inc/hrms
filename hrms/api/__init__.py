@@ -3,7 +3,6 @@ from frappe import _
 from frappe.model.workflow import get_workflow_name
 from frappe.query_builder import Order
 from frappe.utils import getdate
-# from hrms.api import upload_base64_file as hrms_file_uploader
 import requests
 from erpnext.accounts.party import get_party_details
 from frappe.utils import add_days, flt, getdate, today
@@ -684,10 +683,10 @@ def get_allowed_states_for_workflow(workflow: dict, user_id: str) -> list[str]:
 
 
 
-# @frappe.whitelist()
-# def upload_base64_file(file_list, dt=None, dn=None):
-# 	for row in file_list:
-# 		hrms_file_uploader(file_list[row], row, dt , dn)
+@frappe.whitelist()
+def upload_file(file_list, dt=None, dn=None):
+	for row in file_list:
+		upload_base64_file(file_list[row], row, dt , dn)
 
 
 def get_location_for_lat_lng(lat, lng):
@@ -714,7 +713,7 @@ def record_place_name(self, method):
 		if self.get("custom_latitude") and self.get("custom_longitude") and not self.custom_place_name:
 			self.custom_place_name = get_location_for_lat_lng(self.get("custom_latitude") , self.get("custom_longitude")).get('display_name') or ""
 
-	if self.doctype == "Sales Visit":
+	if self.doctype == "Field Report":
 		if self.get("latitude") and self.get("longitude") and not self.place_name:
 			self.place_name = get_location_for_lat_lng(self.get("latitude") , self.get("longitude")).get('display_name') or ""
 

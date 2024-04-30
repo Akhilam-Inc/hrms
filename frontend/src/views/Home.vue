@@ -22,6 +22,7 @@ import ExpenseIcon from "@/components/icons/ExpenseIcon.vue"
 import EmployeeAdvanceIcon from "@/components/icons/EmployeeAdvanceIcon.vue"
 import SalaryIcon from "@/components/icons/SalaryIcon.vue"
 import RequestIcon from "@/components/icons/RequestIcon.vue"
+import SalesVisitIcon from "@/components/icons/SalesVisitIcon.vue"
 
 const quickLinks = [
 	{
@@ -48,7 +49,17 @@ const quickLinks = [
 		icon: markRaw(RequestIcon),
 		title: "Request Form",
 		route: "RequestForm",
-	}
+	},
+	{
+		icon: markRaw(SalesVisitIcon),
+		title: "Field Report",
+        route: "SalesVisitFormView",
+	},
+	{
+		icon: markRaw(SalesVisitIcon),
+		title: "Customer",
+        route: "CustomerFormView",
+	},
 	
 ]
 </script>

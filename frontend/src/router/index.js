@@ -6,6 +6,7 @@ import claimRoutes from "./claims"
 import employeeAdvanceRoutes from "./advances"
 import salarySlipRoutes from "./salary_slips"
 import requestRoutes from "./request"
+import fieldReport from './field_report'
 
 const routes = [
 	{
@@ -35,10 +36,15 @@ const routes = [
 				name: "ExpenseClaimsDashboard",
 				component: () => import("@/views/expense_claim/Dashboard.vue"),
 			},
+			// {
+			// 	path: "/dashboard/salary-slips",
+			// 	name: "SalarySlipsDashboard",
+			// 	component: () => import("@/views/salary_slip/Dashboard.vue"),
+			// },
 			{
-				path: "/dashboard/salary-slips",
-				name: "SalarySlipsDashboard",
-				component: () => import("@/views/salary_slip/Dashboard.vue"),
+				path: "/dashboard/follow-up-list",
+				name: "FollowUpListView",
+				component: () => import("@/components/FollowUpList.vue"),
 			},
 		],
 	},
@@ -72,6 +78,7 @@ const routes = [
 	...employeeAdvanceRoutes,
 	...salarySlipRoutes,
 	...requestRoutes,
+	...fieldReport,
 ]
 
 const router = createRouter({

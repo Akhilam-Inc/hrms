@@ -25,7 +25,6 @@ export const session = reactive({
 		onSuccess(data) {
 			userResource.reload()
 			employeeResource.reload()
-
 			session.user = sessionUser()
 			session.login.reset()
 			router.replace(data.default_route || "/")
@@ -36,7 +35,6 @@ export const session = reactive({
 		onSuccess() {
 			userResource.reset()
 			employeeResource.reset()
-
 			session.user = sessionUser()
 			router.replace({ name: "Login" })
 			window.location.reload()

@@ -200,7 +200,7 @@ doc_events = {
 	"Employee Checkin": {
 			"validate": "hrms.api.record_place_name"
 	},
-	"Sales Visit": {
+	"Field Report": {
 			"validate": "hrms.api.record_place_name"
 	}
 }

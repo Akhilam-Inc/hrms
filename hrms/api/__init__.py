@@ -713,7 +713,7 @@ def record_place_name(self, method):
 		if self.get("custom_latitude") and self.get("custom_longitude") and not self.custom_place_name:
 			self.custom_place_name = get_location_for_lat_lng(self.get("custom_latitude") , self.get("custom_longitude")).get('display_name') or ""
 
-	if self.doctype == "Sales Visit":
+	if self.doctype == "Field Report":
 		if self.get("latitude") and self.get("longitude") and not self.place_name:
 			self.place_name = get_location_for_lat_lng(self.get("latitude") , self.get("longitude")).get('display_name') or ""
 

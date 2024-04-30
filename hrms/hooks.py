@@ -197,6 +197,12 @@ doc_events = {
 		"validate": "hrms.controllers.employee_boarding_controller.update_employee_boarding_status"
 	},
 	"Task": {"on_update": "hrms.controllers.employee_boarding_controller.update_task"},
+	"Employee Checkin": {
+			"validate": "hrms.api.record_place_name"
+	},
+	"Sales Visit": {
+			"validate": "hrms.api.record_place_name"
+	}
 }
 
 # Scheduled Tasks

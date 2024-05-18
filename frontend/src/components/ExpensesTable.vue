@@ -12,7 +12,7 @@
 				class="text-sm"
 				icon="plus"
 				variant="subtle"
-				@click="openModal()"
+				@click="openModal(item, idx,expenseClaim.expenses)"
 			/>
 		</div>
 	</div>
@@ -26,7 +26,7 @@
 			class="flex flex-row p-3.5 items-center justify-between border-b cursor-pointer"
 			v-for="(item, idx) in expenseClaim.expenses"
 			:key="idx"
-			@click="openModal(item, idx)"
+			@click="openModal(item, idx,expenseClaim.expenses)"
 		>
 			<div class="flex flex-col w-full justify-center gap-2.5">
 				<div class="flex flex-row items-center justify-between">
@@ -162,13 +162,27 @@ const editingIdx = ref(null)
 const isModalOpen = ref(false)
 const isFirstRender = ref(false)
 
-const openModal = async (item, idx) => {
+const openModal = async (item, idx,expenses) => {
+	console.log(expenses)
 	if (item) {
 		expenseItem.value = { ...item }
 		editingIdx.value = idx
 	}
 	isFirstRender.value = true
-	isModalOpen.value = true
+	if(expenses){
+	if(expenses.length >= 1){
+	isModalOpen.value = false
+	alert("You can't add more than one expense")
+	}else{
+		isModalOpen.value = true
+	}
+	
+	}else{
+		isModalOpen.value = true
+	}
+	
+	
+	
 }
 
 const deleteExpenseItem = () => {

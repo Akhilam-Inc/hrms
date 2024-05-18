@@ -40,7 +40,29 @@
                                 <div class="mb-3 text-base">Lead Name</div>
                                     <Input v-model="salesVisit.lead" type="text" placeholder="Lead Name" />
                                 </div>
-                            <div class="mt-7">
+                                <div class="mt-7">
+                                <div class="mb-3 text-base font-semibold">Sales Visit Type</div>
+                                <div
+                                    class="w-full"
+                                    >
+                                    <Select
+                                        v-model="salesVisit.sales_visit_type"
+                                        placeholder="types"
+                                        :options="[
+                                        {
+                                            label: 'Field Type',
+                                            value: 'Field Type',
+                                        },
+                                        {
+                                            label: 'Tele Calling',
+                                            value: 'Tele Calling',
+                                        },
+                                        ]"
+                                    />
+                                </div>
+                            </div>
+                            
+                                <div class="mt-7">
                                 <div class="mb-3 text-base font-semibold">Meeting Details</div>
                                 <Input v-model="salesVisit.meeting_details" type="textarea" class="h-[70px] w-full"  required/>
                             </div>
@@ -54,7 +76,8 @@
                                                 Upload images
                                             </span>
                                         </div>
-                                        <input class="hidden" type="file" ref="input" multiple accept="*" @change="(e) => handleFileSelect(e)" />
+                                        <!-- <input class="hidden" type="file" ref="input" multiple accept="*" @change="(e) => handleFileSelect(e)" /> -->
+                                        <input class="hidden" type="file" ref="input" accept="image/*" capture="environment" @change="(e) => handleFileSelect(e)" />
                                     </div>
                                 </label>
                                 <div v-if="selectedFiles.length" class="w-full mt-4">
@@ -82,27 +105,7 @@
                                     <FilePreviewModal :file="previewFile" />
                                 </ion-modal> -->
                             </div>
-                            <div class="mt-7">
-                                <div class="mb-3 text-base font-semibold">Sales Visit Type</div>
-                                <div
-                                    class="w-full"
-                                    >
-                                    <Select
-                                        v-model="salesVisit.sales_visit_type"
-                                        placeholder="types"
-                                        :options="[
-                                        {
-                                            label: 'Field Type',
-                                            value: 'Field Type',
-                                        },
-                                        {
-                                            label: 'Tele Calling',
-                                            value: 'Tele Calling',
-                                        },
-                                        ]"
-                                    />
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>

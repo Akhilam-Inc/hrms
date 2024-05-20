@@ -81,7 +81,7 @@
    "fieldname": "reason",
    "fieldtype": "Select",
    "label": "Reason",
-   "options": "\nMispunch\nLeave Related\nDifferent In Salary\nClaim Related\nTravel Advance\nOutdoor Duty\nOver Time\nCompensatory Leave",
+   "options": "\nMispunch\nLeave Related\nDifference In Salary\nClaim Related\nTravel Advance\nOutdoor Duty\nOver Time\nCompensatory Leave",
    "reqd": 1
   },
   {
@@ -106,7 +106,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-24 17:42:31.959371",
+ "modified": "2024-05-20 11:08:16.810244",
  "modified_by": "Administrator",
  "module": "HR",
  "name": "Request Form",

@@ -83,12 +83,38 @@ const createCustomer = createResource({
 
 
 function savecustomer(){
+	if (!validatePhoneNumber(customer.custom_phone)) {
+        alert("Invalid phone number");    
+		return;
+        }
+		if (!validateGSTNumber(customer.custom_gst_number)) {
+		alert("Invalid GST number");
+            return;
+        }
 	createCustomer.submit({        
 		customer
 	}).then( r => {
             let origin = window.location.origin
             window.location.href = origin + "/hrms"
     })
+}
+
+function validateGSTNumber(gstNumber) {
+	console.log(gstNumber)
+        const gstRegex = /^([0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[Z]{1}[0-9A-Z]{1})$/;
+        if (!gstRegex.test(gstNumber)) {
+            return false;
+        }
+        return true;
+    }
+
+function validatePhoneNumber(phoneNumber) {
+	console.log(phoneNumber)
+	if (phoneNumber.length !== 10) {
+		return false;
+	}else{
+		return true;
+	}
 }
 
 </script>

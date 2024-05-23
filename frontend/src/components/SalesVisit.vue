@@ -233,6 +233,11 @@ function closePreView () {
 }
 
 function save () {
+    
+    if(selectedFiles.value.length == 0){
+        alert("To create field report you must have to click photo and upload!")
+        return
+    }
     let missing_fields = []
     for(let i in salesVisit){
         if(Object.values(salesVisit[i]) == ''){

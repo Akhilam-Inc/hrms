@@ -619,13 +619,18 @@ function handleDocInsert() {
 }
 
 function validateMandatoryFields() {
-	const errorFields = props.fields
+	let errorFields = props.fields
 		.filter(
 			(field) =>
 				field.reqd && !field.hidden && !formModel.value[field.fieldname]
 		)
 		.map((field) => field.label)
 
+	if(props.doctype == "Expense Claim"){
+		if(!fileAttachments.value.length) {
+			errorFields.push("Attachments")
+		}
+	}
 	if (errorFields.length) {
 		formErrorMessage.value = `${errorFields.join(", ")} ${
 			errorFields.length > 1 ? "fields are mandatory" : "field is mandatory"

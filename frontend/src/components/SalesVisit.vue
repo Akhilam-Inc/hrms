@@ -8,6 +8,7 @@
                     
                     <span class=" font-bold text-[19px] px-2">New Field Report</span>
                     </div>
+                    
                     <div class="px-5 mt-7">
                         <div class="">
                             <div class=" mb-3 font-semibold text-base">Meeting With</div>
@@ -112,6 +113,7 @@
             </ion-content>
             <ion-footer>
                 <div class="p-2 mb-3">
+                    <div v-if="showWarning" class="text-red-800 px-3 text-[15px] font-semibold mb-3">{{ WarningMessage }}</div>
                     <div v-if="showError" class="text-red-800 px-3 text-[15px] font-semibold mb-3">{{ errorMessage }}</div>
                     <Button v-if="showSave"  @click="save()" variant="solid" theme="gray" class="w-full p-5 mb-1">Save</Button>
                     <Button v-if="createFollowUp" @click = "folloup()" variant="solid" theme="gray" class="w-full p-5 mb-1">Create Followup</Button>
@@ -134,6 +136,8 @@ import FilePreviewModal from './FilePreviewModal.vue';
 import ImagePreview from './ImagePreview.vue';
 
 
+
+
 const salesVisit = reactive({
     meeting_with: 'Customer',
     customer: Object,
@@ -148,6 +152,8 @@ let showCustomerField = ref(true)
 let showDialog = ref(false)
 let showLeadField = ref(false)
 let showError = ref(false)
+let showWarning = ref(false)
+let WarningMessage = ref('')
 let errorMessage = ref('')
 let file = {}
 let doc = ''
@@ -257,6 +263,10 @@ function save () {
         endpoint = salesVisit.lead
     }
 
+    if(window.location.lat == undefined || window.location.long == undefined){
+        showWarning.value = true
+        WarningMessage.value = "Report is created without location. Please enable location."
+    }
 
     if(missing_fields.length){
         errorMessage.value = missing_fields.join(",") + " are mandatory fields"
@@ -308,6 +318,7 @@ function folloup(){
 }
 onMounted(() => {
     navigator.geolocation.getCurrentPosition((position) => {
+        console.log(position)
         window.location.lat = position.coords.latitude;
         window.location.long = position.coords.longitude;
     });

@@ -766,7 +766,7 @@ def create_customer(**args):
 		customer_doc = frappe.get_doc({
 						"doctype":"Customer",
 						"customer_name": args["customer_name"],
-						"gstin": args["custom_gst_number"],
+						"tax_id": args["custom_gst_number"],
 						"account_manager":frappe.session.user,
 				}).insert(ignore_permissions=True)
 

@@ -318,7 +318,7 @@ function folloup(){
 }
 onMounted(() => {
     navigator.geolocation.getCurrentPosition((position) => {
-        console.log(position)
+        
         window.location.lat = position.coords.latitude;
         window.location.long = position.coords.longitude;
     });

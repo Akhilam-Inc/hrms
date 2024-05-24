@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:FR{DD}{MM}{YY}-{####}",
  "creation": "2024-04-29 16:25:37.908464",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -29,7 +30,7 @@
   },
   {
    "fieldname": "lead",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "label": "Lead",
    "options": "Lead"
   },
@@ -62,10 +63,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-29 16:27:19.493966",
+ "modified": "2024-05-24 18:23:26.391815",
  "modified_by": "Administrator",
  "module": "HR",
  "name": "Field Report",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

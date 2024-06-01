@@ -198,7 +198,8 @@ doc_events = {
 	},
 	"Task": {"on_update": "hrms.controllers.employee_boarding_controller.update_task"},
 	"Employee Checkin": {
-			"validate": "hrms.api.record_place_name"
+			"validate": "hrms.api.record_place_name",
+            "after_insert":"hrms.overrides.employee_checkin.after_insert"
 	},
 	# "Field Report": {
 	# 		"validate": "hrms.api.record_place_name"

@@ -403,10 +403,24 @@ def get_rows(
 				{"employee": employee, "employee_name": details.employee_name}
 			)
 
-			records.extend(attendance_for_employee)
+			# records.extend(attendance_for_employee)
+			merged_attendance = merge_records(attendance_for_employee)
+			records.append(merged_attendance)
 
 	return records
 
+def merge_records(record_list):
+	merged_record = {}
+	for record in record_list:
+		for key, value in record.items():
+			if key == "shift":
+				merged_record[key] = ""
+			elif key in merged_record:
+				if merged_record[key] == "" and value:
+					merged_record[key] = value
+			else:
+				merged_record[key] = value
+	return merged_record
 
 def set_defaults_for_summarized_view(filters, row):
 	for entry in get_columns(filters):

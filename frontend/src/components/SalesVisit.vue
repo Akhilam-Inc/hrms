@@ -32,7 +32,7 @@
                             <div v-if="showCustomerField" class="mt-7">
                                 <div class="mb-3 font-semibold text-base">Customer</div>
                                     <Autocomplete
-                                        :options="getCustomerNames"
+                                        :options="customer.data"
                                         placeholder="Customer Name"
                                         v-model="salesVisit.customer"
                                     />
@@ -199,10 +199,16 @@ const uploader = createResource({
         url: "hrms.api.upload_file"
 })
 
-const customer = createListResource({
-    doctype: 'Customer',
-    fields: ['name'],
-    auto: true,
+const customer = createResource({
+  url: "hrms.api.get_customer",
+  transform(data) {
+    if(data){
+      return data.map((d) => ({
+        label: d,
+        value: d,
+      }));
+    }
+    }
 })
 
 customer.reload()
@@ -225,14 +231,7 @@ function changeEvent (doc) {
     }
 }
 
-let getCustomerNames = computed(() => {
-    if(salesVisit.meeting_with){
-        return customer.data.map((d) => ({
-        label: d.name,
-        value: d.name,
-    }))
-    }
-})
+
 
 function closePreView () {
     showDialog.value = false

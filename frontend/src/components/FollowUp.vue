@@ -18,7 +18,7 @@
                   <div class=" text-base font-semibold mb-3">Customer Name</div>
                   <div class="">
                     <Autocomplete
-                      :options="getCustomerNames"
+                      :options="customer.data"
                       v-model="ToDo.custom_customer"
                     />
                   </div>
@@ -98,20 +98,20 @@ const ToDoDocType = createListResource({
 
 ToDoDocType.reload()
 
-const customer = createListResource({
-    doctype: 'Customer',
-    fields: ['name'],
-    auto: true,
+const customer = createResource({
+  url: "hrms.api.get_customer",
+  transform(data) {
+    if(data){
+      return data.map((d) => ({
+        label: d,
+        value: d,
+      }));
+    }
+    }
 })
 
 customer.reload()
 
-let getCustomerNames = computed(() => {
-        return customer.data.map((d) => ({
-        label: d.name,
-        value: d.name,
-    }))
-})
 
 const CreateToDo = () => {
       ToDoDocType.insert.submit({

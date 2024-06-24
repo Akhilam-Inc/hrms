@@ -807,3 +807,7 @@ def create_customer(**args):
 	
 	except Exception as e:
 		frappe.log_error(title = "Customer Creation",message = frappe.get_traceback())
+
+@frappe.whitelist()
+def get_customer():
+	return frappe.get_all("Customer", {'disabled': 0}, pluck="name")

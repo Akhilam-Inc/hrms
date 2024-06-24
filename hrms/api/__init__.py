@@ -707,16 +707,22 @@ def get_location_for_lat_lng(lat, lng):
 		response.pop('osm_type')
 		response.pop('osm_id')
 		return response
+	else:
+		frappe.log_error("get_location_for_lat_lng", response.text)
 
 def record_place_name(self, method):
-	# frappe.msgprint("Record Place Name")
-	if self.doctype == "Employee Checkin":
-		if self.get("custom_latitude") and self.get("custom_longitude") and not self.custom_place_name:
-			self.custom_place_name = get_location_for_lat_lng(self.get("custom_latitude") , self.get("custom_longitude")).get('display_name') or ""
+	try:
+		# frappe.msgprint("Record Place Name")
+		if self.doctype == "Employee Checkin":
+			if self.get("custom_latitude") and self.get("custom_longitude") and not self.custom_place_name:
+				self.custom_place_name = get_location_for_lat_lng(self.get("custom_latitude") , self.get("custom_longitude")).get('display_name') or ""
 
-	if self.doctype == "Field Report":
-		if self.get("latitude") and self.get("longitude") and not self.place_name:
-			self.place_name = get_location_for_lat_lng(self.get("latitude") , self.get("longitude")).get('display_name') or ""
+		if self.doctype == "Field Report":
+			if self.get("latitude") and self.get("longitude") and not self.place_name:
+				self.place_name = get_location_for_lat_lng(self.get("latitude") , self.get("longitude")).get('display_name') or ""
+	
+	except Exception as e:
+		frappe.log_error("record_place_name", frappe.get_traceback())
 
 
 

@@ -201,9 +201,9 @@ doc_events = {
 			"validate": "hrms.api.record_place_name",
             "after_insert":"hrms.overrides.employee_checkin.after_insert"
 	},
-	# "Field Report": {
-	# 		"validate": "hrms.api.record_place_name"
-	# }
+	"Field Report": {
+			"validate": "hrms.api.record_place_name"
+	}
 }
 
 # Scheduled Tasks

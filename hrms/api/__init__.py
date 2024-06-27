@@ -732,7 +732,7 @@ def record_place_name(self, method):
 
 		if self.doctype == "Field Report":
 			if self.get("latitude") and self.get("longitude") and not self.place_name:
-				self.custom_place_name = get_location(self.get("custom_latitude") , self.get("custom_longitude"))
+				self.place_name = get_location(self.get("latitude") , self.get("longitude"))
 	
 	except Exception as e:
 		frappe.log_error("record_place_name", frappe.get_traceback())

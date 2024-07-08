@@ -36,7 +36,7 @@
   },
   {
    "fieldname": "meeting_details",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Meeting Details"
   },
   {
@@ -63,7 +63,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-24 18:23:26.391815",
+ "modified": "2024-07-08 13:34:33.472610",
  "modified_by": "Administrator",
  "module": "HR",
  "name": "Field Report",

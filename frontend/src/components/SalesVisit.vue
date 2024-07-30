@@ -5,16 +5,16 @@
                 <div class="">
                     <div class=" flex items-center justify-start sticky shadow-sm p-2">
                         <router-link to="/"><FeatherIcon name="chevron-left" class="w-6 h-6" /></router-link>
-                    
+
                     <span class=" font-bold text-[19px] px-2">New Field Report</span>
                     </div>
-                    
+
                     <div class="px-5 mt-7">
                         <div class="">
                             <div class=" mb-3 font-semibold text-base">Meeting With</div>
                             <div>
                                 <Autocomplete
-                                        :options="[ 
+                                        :options="[
                                             {
                                             label: 'Customer',
                                             value: 'Customer',
@@ -62,7 +62,7 @@
                                     />
                                 </div>
                             </div>
-                            
+
                                 <div class="mt-7">
                                 <div class="mb-3 text-base font-semibold">Meeting Details</div>
                                 <Input v-model="salesVisit.meeting_details" type="textarea" class="h-[70px] w-full"  required/>
@@ -106,13 +106,22 @@
                                     <FilePreviewModal :file="previewFile" />
                                 </ion-modal> -->
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
             </ion-content>
             <ion-footer>
+                <!-- Attachment upload -->
+                <div
+                    class="flex flex-row gap-2 items-center justify-center p-5"
+                    v-if="isFileUploading"
+                >
+                    <LoadingIndicator class="w-3 h-3 text-gray-800" />
+                    <span class="text-gray-900 text-sm">Uploading...</span>
+                </div>
                 <div class="p-2 mb-3">
+                    <!-- <LoadingIndicator>Loading...</LoadingIndicator> -->
                     <div v-if="showWarning" class="text-red-800 px-3 text-[15px] font-semibold mb-3">{{ WarningMessage }}</div>
                     <div v-if="showError" class="text-red-800 px-3 text-[15px] font-semibold mb-3">{{ errorMessage }}</div>
                     <Button v-if="showSave"  @click="save()" variant="solid" theme="gray" class="w-full p-5 mb-1">Save</Button>
@@ -126,7 +135,7 @@
 
 <script setup>
 import { createListResource, createResource} from 'frappe-ui';
-import { Button, Input, Autocomplete, Select, Dialog } from 'frappe-ui';
+import { Button, Input, Autocomplete, Select, Dialog, LoadingIndicator } from 'frappe-ui';
 import { capitalize, reactive, ref, onMounted } from 'vue';
 import { FeatherIcon, toast } from 'frappe-ui'
 import router from '../router';
@@ -165,6 +174,7 @@ let showBack = ref(false)
 let showPreviewModal = ref(false)
 let imageFile = ref({})
 let result = ref(null)
+let isFileUploading = ref(false)
 
 function handleFileDelete(fileobj){
     let index = selectedFiles.value.indexOf(fileobj)
@@ -174,6 +184,7 @@ function handleFileDelete(fileobj){
 
 
 function handleFileSelect(ev) {
+    isFileUploading.value = true
     if (!ev.target.files[0]) return;
     let file_content = ev.target.files[0]
     const reader = new FileReader();
@@ -184,7 +195,7 @@ function handleFileSelect(ev) {
         file[ev.target.files[0]['name']] = base64Content
     };
     reader.readAsDataURL(file_content);
-
+    isFileUploading.value = false
 }
 
 function showPreview(file) {
@@ -238,7 +249,8 @@ function closePreView () {
 }
 
 function save () {
-    
+    isFileUploading.value = true
+
     if(selectedFiles.value.length == 0){
         alert("To create field report you must have to click photo and upload!")
         return
@@ -283,11 +295,12 @@ function save () {
         latitude: window.location.lat,
         longitude: window.location.long
     }).then(r => {
-            uploader.submit({        
+            uploader.submit({
                 file_list: file,
                 dt: 'Field Report',
                 dn: r.name
             })
+            isFileUploading.value = false
             showBack.value = true
             createFollowUp.value = true
             toast({
@@ -298,6 +311,7 @@ function save () {
                     iconClasses: "text-green-500",
                 })
     }).catch( (error) => {
+        isFileUploading.value = false
         toast({
                     title: "Failed",
                     text: `Failed!`,
@@ -307,7 +321,7 @@ function save () {
                 })
                 showSave.value = true
     })
-    
+
     }
 }
 
@@ -317,7 +331,7 @@ function folloup(){
 }
 onMounted(() => {
     navigator.geolocation.getCurrentPosition((position) => {
-        
+
         window.location.lat = position.coords.latitude;
         window.location.long = position.coords.longitude;
     });

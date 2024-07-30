@@ -342,16 +342,16 @@ def get_tv_requests(
 		"`tabRequest Form`.name",
 		"`tabRequest Form`.employee",
 		"`tabRequest Form`.employee_name",
-		
+
 		"`tabRequest Form`.status",
-		
+
 		"`tabRequest Form`.from_date",
 		"`tabRequest Form`.to_date",
 		"`tabRequest Form`.half_day",
 		"`tabRequest Form`.half_day_date",
 		"`tabRequest Form`.reason",
 		"`tabRequest Form`.explanation",
-		
+
 	]
 
 	if workflow_state_field := get_workflow_state_field("Request Form"):
@@ -733,7 +733,7 @@ def record_place_name(self, method):
 		if self.doctype == "Field Report":
 			if self.get("latitude") and self.get("longitude") and not self.place_name:
 				self.place_name = get_location(self.get("latitude") , self.get("longitude"))
-	
+
 	except Exception as e:
 		frappe.log_error("record_place_name", frappe.get_traceback())
 
@@ -745,7 +745,7 @@ def record_place_name(self, method):
 def create_sales_order(**args):
 	price_list = frappe.db.get_value("Customer",args["customer"],"default_price_list")
 	company = frappe.get_single("Global Defaults").default_company
-	
+
 	employee_id = frappe.db.get_value("Employee", {"user_id": args["user"]})
 	sales_person = frappe.db.get_value("Sales Person", {"employee": employee_id})
 	sales_team = []
@@ -766,7 +766,7 @@ def create_sales_order(**args):
 			'items': args["item"],
 			'order_type' : "Sales",
 		})
-		
+
 		party_details = get_party_details(party=so.customer,party_type='Customer',posting_date=frappe.utils.today(),company=company,doctype='Sales Order')
 		so.taxes_and_charges = party_details.get("taxes_and_charges")
 		so.set("taxes", party_details.get("taxes"))
@@ -817,10 +817,16 @@ def create_customer(**args):
 		customer_doc.customer_primary_address = address_doc.name
 		customer_doc.customer_primary_contact = contact_doc.name
 		customer_doc.save(ignore_permissions=True)
-	
+
 	except Exception as e:
 		frappe.log_error(title = "Customer Creation",message = frappe.get_traceback())
 
 @frappe.whitelist()
 def get_customer():
-	return frappe.get_all("Customer", {'disabled': 0}, pluck="name")
+	data = frappe.db.sql("""
+		SELECT cust.name as customer_name, addr.address_line1 as firm_name FROM `tabCustomer` as cust
+		INNER JOIN `tabAddress` as addr ON cust.customer_primary_address = addr.name
+	""", as_dict=1)
+
+	return data
+	# return frappe.get_all("Customer", {'disabled': 0}, pluck = "name")

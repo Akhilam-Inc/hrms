@@ -215,8 +215,8 @@ const customer = createResource({
   transform(data) {
     if(data){
       return data.map((d) => ({
-        label: d,
-        value: d,
+        label: d.customer_name,
+        value: d.customer_name + d.firm_name,
       }));
     }
     }
@@ -265,7 +265,7 @@ function save () {
         let index = missing_fields.indexOf("Lead")
         missing_fields.splice(index, 1)
         doc = 'Customer'
-        endpoint = salesVisit.customer.value
+        endpoint = salesVisit.customer.label
     }
     else if(salesVisit.meeting_with == "Lead") {
         let index = missing_fields.indexOf("Customer")
@@ -288,7 +288,7 @@ function save () {
         showSave.value = false
         salesVisitdoc.insert.submit({
         meeting_with: salesVisit.meeting_with,
-        customer: salesVisit.customer.value,
+        customer: salesVisit.customer.label,
         lead: salesVisit.lead,
         meeting_details: salesVisit.meeting_details,
         sales_visit_type: salesVisit.sales_visit_type,

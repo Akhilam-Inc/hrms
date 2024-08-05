@@ -78,7 +78,17 @@
                                             </span>
                                         </div>
                                         <!-- <input class="hidden" type="file" ref="input" multiple accept="*" @change="(e) => handleFileSelect(e)" /> -->
-                                        <input class="hidden" type="file" ref="input" accept="image/*" capture="environment" @change="(e) => handleFileSelect(e)" />
+                                        <input class="hidden" type="file" ref="cameraInput" accept="image/*" capture="environment" @change="(e) => handleFileSelect(e)" />
+                                    </div>
+                                    <div v-if = "salesVisit.sales_visit_type === 'Tele Calling'"class="select-button cursor-pointer">
+                                        <div class="flex flex-col w-full border shadow-sm items-center rounded p-3 gap-2">
+                                            <FeatherIcon name="upload" class="h-6 w-6 text-gray-700" />
+                                            <span class="block text-sm font-normal leading-5 text-gary-700">
+                                                Upload from gallery
+                                            </span>
+                                        </div>
+                                        <!-- <input class="hidden" type="file" ref="input" multiple accept="*" @change="(e) => handleFileSelect(e)" /> -->
+                                        <input class="hidden" type="file" ref="galleryInput" accept="*" @change="(e) => handleFileSelect(e)" />
                                     </div>
                                 </label>
                                 <div v-if="selectedFiles.length" class="w-full mt-4">

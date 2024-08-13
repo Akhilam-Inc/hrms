@@ -44,7 +44,7 @@
 				</ion-content>
 				<ion-footer>
 					<div class="flex justify-end px-3 mb-5">
-						<Button @click="savecustomer()" class="w-full  rounded mt-2 p-5 text-base text-white" :variant="'solid'" theme="gray">
+						<Button @click="savecustomer()" class="w-full rounded mt-2 p-5 text-base text-white" :variant="'solid'" theme="gray">
 							Save
 						</Button>
 					</div>

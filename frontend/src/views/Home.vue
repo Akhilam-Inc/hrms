@@ -48,13 +48,13 @@ const quickLinks = [
 	{
 		icon: markRaw(SalesVisitIcon),
 		title: "Field Report",
-        route: "SalesVisitFormView",
+        route: "SalesVisitListView",
 	},
 	{
 		icon: markRaw(SalesVisitIcon),
 		title: "Customer",
         route: "CustomerFormView",
 	},
-	
+
 ]
 </script>

@@ -443,6 +443,8 @@ function closePreView () {
 }
 
 function save () {
+    console.log("salesVisit",salesVisit);
+
     isFileUploading.value = true
 
     if(selectedFiles.value.length == 0){
@@ -451,7 +453,7 @@ function save () {
     }
     let missing_fields = []
     for(let i in salesVisit){
-        if(Object.values(salesVisit[i]) == ''){
+        if(i !== 'docname' && i !== 'creation' && Object.values(salesVisit[i]) == ''){
             missing_fields.push(capitalize(i.replaceAll('_', ' ')))
         }
     }
@@ -505,6 +507,8 @@ function save () {
                     iconClasses: "text-green-500",
                 })
     }).catch( (error) => {
+        console.log(error);
+
         isFileUploading.value = false
         toast({
                     title: "Failed",

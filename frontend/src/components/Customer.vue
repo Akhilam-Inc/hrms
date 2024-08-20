@@ -7,7 +7,7 @@
 						<Button @click="router.back()" variant="ghost" class="!pl-0">
 							<FeatherIcon name="chevron-left" class="h-5 w-5" />
 						</Button>
-		
+
 						<h2 class="text-2xl font-semibold text-gray-900">
 							Create Customer
 						</h2>
@@ -22,7 +22,7 @@
 						<div class="mt-7">
 							<div class="text-base font-semibold mb-3">Owner Name</div>
 							<Input v-model="customer.customer_name" type="text" />
-		
+
 						</div>
 						<div class="mt-7">
 							<div class="text-base font-semibold mb-3">Email Address</div>
@@ -44,11 +44,11 @@
 				</ion-content>
 				<ion-footer>
 					<div class="flex justify-end px-3 mb-5">
-						<Button @click="savecustomer()" class="w-full  rounded mt-2 p-5 text-base text-white" :variant="'solid'" theme="gray">
+						<Button @click="savecustomer()" class="w-full rounded mt-2 p-5 text-base text-white" :variant="'solid'" theme="gray">
 							Save
 						</Button>
 					</div>
-				</ion-footer>	
+				</ion-footer>
 			</div>
 		</div>
 	</ion-page>
@@ -83,15 +83,15 @@ const createCustomer = createResource({
 
 
 function savecustomer(){
-	if (!validatePhoneNumber(customer.custom_phone)) {
-        alert("Invalid phone number");    
+	if (customer.custom_phone && !validatePhoneNumber(customer.custom_phone)) {
+		alert("Invalid phone number");
 		return;
-        }
-		if (!validateGSTNumber(customer.custom_gst_number)) {
+	}
+	if (customer.custom_gst_number && !validateGSTNumber(customer.custom_gst_number)) {
 		alert("Invalid GST number");
-            return;
-        }
-	createCustomer.submit({        
+        return;
+	}
+	createCustomer.submit({
 		customer
 	}).then( r => {
             let origin = window.location.origin

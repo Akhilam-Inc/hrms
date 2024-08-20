@@ -5,7 +5,7 @@
           <ion-header>
             <header class="flex flex-row shadow-sm py-4 px-5 items-center border-b sticky top-0 z-[1000]">
               <router-link to="/"><FeatherIcon name="chevron-left" class="h-5 w-5" /></router-link>
-            
+
             <h2 class="text-2xl font-semibold text-gray-900 px-2">
               Follow Up
             </h2>
@@ -25,7 +25,7 @@
                 </div>
                 <div v-if="showLeadField" class="mt-7">
                   <div class=" text-base font-semibold mb-3">Lead Name</div>
-                  <Input v-model="ToDo.custom_lead" class="" type="text" />  
+                  <Input v-model="ToDo.custom_lead" class="" type="text" />
                 </div>
                 <div class="mt-7">
                   <div class="text-base font-semibold mb-3">Followup Date</div>
@@ -48,10 +48,10 @@
     </div>
   </ion-page>
   </template>
-  
+
 <script setup>
 import { IonPage, IonHeader, IonContent, IonFooter } from '@ionic/vue';
-import { FeatherIcon, Input, createListResource, Autocomplete} from 'frappe-ui'
+import { FeatherIcon, Input, createListResource, Autocomplete, createResource} from 'frappe-ui'
 import router from '../router';
 import { reactive, computed, ref } from 'vue';
 import { session } from '../data/session';
@@ -129,4 +129,3 @@ const CreateToDo = () => {
 }
 
   </script>
-  

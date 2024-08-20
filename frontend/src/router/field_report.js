@@ -1,8 +1,13 @@
 
 const routes = [
 	{
+		name: "SalesVisitListView",
+		path: "/sales-visit",
+		component: () => import("@/components/SalesVisitList.vue"),
+	},
+	{
 		name: "SalesVisitFormView",
-		path: "/sales-visit/new",
+		path: "/sales-visit/form",
 		component: () => import("@/components/SalesVisit.vue"),
 	},
 	{

@@ -15,11 +15,12 @@
             <div class="hidden">{{ checkDoc }}</div>
               <div class="grow px-3">
                 <div v-if="showCustomerField" class="mt-7">
-                  <div class=" text-base font-semibold mb-3">Customer Name</div>
-                  <div class="">
+                  <div class="text-base font-semibold mb-3">Customer Name</div>
+                  <div>
                     <Autocomplete
                       :options="customer.data"
                       v-model="ToDo.custom_customer"
+                      class="border-2 border-gray-400 rounded"
                     />
                   </div>
                 </div>
@@ -33,7 +34,7 @@
                 </div>
                 <div class="mt-7">
                   <div class="text-base font-semibold mb-3">Followup Description</div>
-                  <Input v-model="ToDo.description" class=" h-20" type="textarea" />
+                  <Input v-model="ToDo.description" class="h-20 border-1 border-gray-400 rounded" type="textarea" />
                 </div>
             </div>
           </ion-content>
@@ -103,8 +104,8 @@ const customer = createResource({
   transform(data) {
     if(data){
       return data.map((d) => ({
-        label: d,
-        value: d,
+        label: d.customer_name,
+        value: d.customer_name + d.firm_name,
       }));
     }
     }
@@ -115,7 +116,7 @@ customer.reload()
 
 const CreateToDo = () => {
       ToDoDocType.insert.submit({
-                  custom_customer: ToDo.custom_customer.value,
+                  custom_customer: ToDo.custom_customer.label,
                   custom_lead: ToDo.custom_lead,
                   date: ToDo.date,
                   description: ToDo.description,
